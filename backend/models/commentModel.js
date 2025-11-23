@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const CommentSchema = new Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    issue: {
+      type: Schema.Types.ObjectId,
+      ref: "Issue",
+      required: true,
+    },
+  },
+  {
+    timestamps: true, // Automatically manage createdAt/updatedAt
+  }
+);
+
+const Comment = mongoose.model("Comment", CommentSchema);
+module.exports = Comment;

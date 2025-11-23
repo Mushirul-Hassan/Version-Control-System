@@ -98,7 +98,7 @@ const Profile = () => {
         </div>
 
         <div className="heat-map-section">
-          <HeatMapProfile />
+          <HeatMapProfile repos={userDetails.repositories} />
         </div>
       </div>
     </>

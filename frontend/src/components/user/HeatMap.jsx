@@ -1,68 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import HeatMap from "@uiw/react-heat-map";
 
-console.log("HeatMap:", HeatMap);
-// Function to generate random activity
-const generateActivityData = (startDate, endDate) => {
-  const data = [];
-  let currentDate = new Date(startDate);
-  const end = new Date(endDate);
-
-  while (currentDate <= end) {
-    const count = Math.floor(Math.random() * 50);
-    data.push({
-      date: currentDate.toISOString().split("T")[0], //YYY-MM-DD
-      count: count,
+const HeatMapProfile = ({ repos = [] }) => {
+  // 1. Extract creation dates and aggregate counts (e.g., 2 repos on same day = count 2)
+  const activityData = useMemo(() => {
+    const counts = {};
+    
+    repos.forEach((repo) => {
+      if (repo.createdAt) {
+        const date = repo.createdAt.split("T")[0]; // Extract YYYY-MM-DD
+        counts[date] = (counts[date] || 0) + 1;
+      }
     });
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
 
-  return data;
-};
+    // Convert object back to array format expected by HeatMap
+    return Object.entries(counts).map(([date, count]) => ({
+      date,
+      count,
+    }));
+  }, [repos]);
 
-const getPanelColors = (maxCount) => {
-  const colors = {};
-  for (let i = 0; i <= maxCount; i++) {
-    const greenValue = Math.floor((i / maxCount) * 255);
-    colors[i] = `rgb(0, ${greenValue}, 0)`;
-  }
-
-  return colors;
-};
-
-const HeatMapProfile = () => {
-  const [activityData, setActivityData] = useState([]);
-  const [panelColors, setPanelColors] = useState({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const startDate = "2001-01-01";
-      const endDate = "2001-01-31";
-      const data = generateActivityData(startDate, endDate);
-      setActivityData(data);
-
-      const maxCount = Math.max(...data.map((d) => d.count));
-      setPanelColors(getPanelColors(maxCount));
-    };
-
-    fetchData();
-  }, []);
+  // 2. Define colors for activity levels (GitHub style)
+  const panelColors = {
+    0: "#161b22", // Empty (Dark background)
+    2: "#0e4429", // Low activity
+    4: "#006d32", // Medium activity
+    10: "#26a641", // High activity
+    20: "#39d353", // Very High activity
+  };
 
   return (
-    <div>
-      <h4>Recent Contributions</h4>
+    <div style={{ width: "100%" }}>
+      <h4 style={{ marginBottom: "10px" }}>Recent Contributions</h4>
       <HeatMap
-        className="HeatMapProfile"
-        style={{ maxWidth: "700px", height: "200px", color: "white" }}
         value={activityData}
-        weekLabels={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
-        startDate={new Date("2001-01-01")}
-        rectSize={15}
-        space={3}
-        rectProps={{
-          rx: 2.5,
-        }}
+        width={800} 
+        style={{ color: "#adbac7" }} 
+        startDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))} // Last 1 year
         panelColors={panelColors}
+        rectSize={14}
+        space={4}
+        rectProps={{
+          rx: 2.5, // Rounded corners
+        }}
+        weekLabels={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]} // Added week labels
       />
     </div>
   );

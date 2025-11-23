@@ -130,3 +130,95 @@
   color: #8b949e;
   font-size: 14px;
 }
+
+.star-btn {
+  margin-left: auto;
+  padding: 5px 12px;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-file-box {
+  background-color: #161b22;
+  padding: 15px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.file-viewer {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.file-header {
+  background-color: #161b22;
+  padding: 10px 15px;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-block {
+  padding: 20px;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #c9d1d9;
+  overflow-x: auto;
+}
+
+/* README Styles */
+.readme-section {
+    margin-top: 20px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+}
+
+.readme-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid #30363d;
+    background-color: #161b22;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #c9d1d9;
+}
+
+.readme-body {
+    padding: 20px 30px;
+    color: #c9d1d9;
+    line-height: 1.6;
+}
+
+/* Improve Markdown Typography */
+.readme-body h1, .readme-body h2, .readme-body h3 {
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 0.3em;
+    margin-bottom: 16px;
+    margin-top: 24px;
+}
+
+.readme-body p {
+    margin-bottom: 16px;
+}
+
+.readme-body code {
+    background-color: rgba(110, 118, 129, 0.4);
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+    font-size: 85%;
+}

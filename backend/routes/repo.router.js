@@ -11,5 +11,8 @@ repoRouter.get("/repo/user/:userID", repoController.fetchRepositoriesForCurrentU
 repoRouter.put("/repo/update/:id", repoController.updateRepositoryById);
 repoRouter.delete("/repo/delete/:id", repoController.deleteRepositoryById);
 repoRouter.patch("/repo/toggle/:id", repoController.toggleVisibilityById);
+repoRouter.post("/repo/file/create/:id", repoController.createFile);
+repoRouter.get("/repo/file/:id/:fileName", repoController.fetchFileContent);
+repoRouter.get("/repo/search", repoController.searchRepositories);
 
 module.exports = repoRouter;

@@ -158,6 +158,68 @@ async function deleteRepositoryById(req, res) {
   }
 }
 
+async function createFile(req, res) {
+  const { id } = req.params;
+  const { name, content } = req.body;
+
+  try {
+    const repository = await Repository.findById(id);
+    if (!repository) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
+
+    // Add the new file object
+    repository.content.push({ name, content });
+    await repository.save();
+
+    res.status(201).json({ message: "File created successfully!", file: { name, content } });
+  } catch (err) {
+    console.error("Error during file creation : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+// 👇 NEW: Fetch content of a specific file
+async function fetchFileContent(req, res) {
+  const { id, fileName } = req.params;
+
+  try {
+    const repository = await Repository.findById(id);
+    if (!repository) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
+
+    // Find the file in the content array
+    const file = repository.content.find((f) => f.name === fileName);
+
+    if (!file) {
+      return res.status(404).json({ error: "File not found!" });
+    }
+
+    res.json(file);
+  } catch (err) {
+    console.error("Error reading file : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+async function searchRepositories(req, res) {
+  const { query } = req.query; // Get search term from URL query
+
+  try {
+    // Search using MongoDB regex (case-insensitive)
+    const repositories = await Repository.find({
+      name: { $regex: query, $options: "i" },
+      visibility: true // Only show public repos
+    });
+
+    res.json(repositories);
+  } catch (err) {
+    console.error("Error during search : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
 module.exports = {
   createRepository,
   getAllRepositories,
@@ -167,4 +229,7 @@ module.exports = {
   updateRepositoryById,
   toggleVisibilityById,
   deleteRepositoryById,
+  createFile,       
+  fetchFileContent,
+  searchRepositories,
 };

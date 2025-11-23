@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import Navbar from "../Navbar";
-import { useNavigate } from "react-router-dom"; // ✅ ADDED
+import { useNavigate } from "react-router-dom"; 
 
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate(); // ✅ ADDED
+  const navigate = useNavigate();
 
+  // 1. Fetch Initial Data (User Repos + Suggestions)
   useEffect(() => {
     const userId = localStorage.getItem("userId");
 
@@ -40,15 +41,26 @@ const Dashboard = () => {
     fetchSuggestedRepositories();
   }, []);
 
+  // 2. Global Search Logic (with Debouncing)
   useEffect(() => {
-    if (searchQuery === "") {
-      setSearchResults(repositories);
-    } else {
-      const filteredRepo = repositories.filter((repo) =>
-        repo.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setSearchResults(filteredRepo);
-    }
+    const delayDebounceFn = setTimeout(async () => {
+      // If search is empty, show user's own repositories
+      if (searchQuery.trim() === "") {
+        setSearchResults(repositories);
+        return;
+      }
+
+      try {
+        // Call the Global Search API
+        const response = await fetch(`http://localhost:3000/repo/search?query=${searchQuery}`);
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (err) {
+        console.error("Error searching repos:", err);
+      }
+    }, 500); // Wait 500ms after typing stops
+
+    return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, repositories]);
 
   return (
@@ -67,7 +79,7 @@ const Dashboard = () => {
           })}
         </aside>
         <main>
-          <h2>Your Repositories</h2>
+          <h2>{searchQuery ? "Search Results" : "Your Repositories"}</h2>
           <div id="search">
             <input
               type="text"
@@ -81,7 +93,7 @@ const Dashboard = () => {
               <div 
                 key={repo._id}
                 className="repo-card"
-                // ✅ ADDED: This makes the repo clickable
+                // ✅ Navigation Logic
                 onClick={() => navigate(`/repo/${repo._id}`)}
                 style={{cursor: "pointer", border: "1px solid #333", padding: "10px", margin: "10px 0"}}
               >

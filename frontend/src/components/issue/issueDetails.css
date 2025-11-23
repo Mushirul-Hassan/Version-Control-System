@@ -1,0 +1,85 @@
+.issue-details-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #c9d1d9;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.issue-number {
+    color: #8b949e;
+    font-weight: 300;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 2em;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-open {
+    background-color: #238636;
+    color: white;
+}
+
+.status-closed {
+    background-color: #8957e5;
+    color: white;
+}
+
+.comment-thread {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-box {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+}
+
+.comment-header {
+    padding: 10px 15px;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    border-radius: 6px 6px 0 0;
+    font-size: 14px;
+    color: #8b949e;
+}
+
+.comment-header strong {
+    color: #c9d1d9;
+}
+
+.comment-body {
+    padding: 15px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.comment-input-area textarea {
+    width: 100%;
+    min-height: 100px;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 10px;
+    color: #c9d1d9;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: flex-end;
+}

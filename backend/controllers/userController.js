@@ -132,6 +132,36 @@ async function deleteUserProfile(req, res) {
   }
 }
 
+  async function likeRepo(req, res) {
+  const { id } = req.body; // Repository ID
+  const user = req.params.userId; // User ID (passed in URL)
+
+  try {
+    const currentUser = await User.findById(user);
+    if (!currentUser) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    // Check if repo is already starred
+    const index = currentUser.starRepos.indexOf(id);
+
+    if (index === -1) {
+      // Not starred yet -> Add it
+      currentUser.starRepos.push(id);
+      await currentUser.save();
+      return res.json({ message: "Repository starred!", starred: true });
+    } else {
+      // Already starred -> Remove it
+      currentUser.starRepos.splice(index, 1);
+      await currentUser.save();
+      return res.json({ message: "Repository unstarred!", starred: false });
+    }
+  } catch (err) {
+    console.error("Error during starring repository : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
 module.exports = {
   getAllUsers,
   signup,
@@ -139,4 +169,5 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   deleteUserProfile,
+  likeRepo,
 };
