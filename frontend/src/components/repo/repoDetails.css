@@ -1,224 +1,293 @@
 .repo-details-wrapper {
   min-height: 100vh;
-  background-color: #0d1117;
-  color: #c9d1d9;
-  padding-bottom: 50px;
+  background-color: var(--bg-root);
+  color: var(--text-main);
+  padding-bottom: 60px;
 }
 
 .repo-details-container {
-  max-width: 1080px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px 20px;
 }
 
-/* Header Styles (Added) */
+/* Header */
 .repo-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .repo-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #58a6ff; /* GitHub Blue */
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
 }
 
 .repo-badge {
   font-size: 12px;
-  border: 1px solid #30363d;
+  border: 1px solid var(--brand-color);
+  color: var(--brand-color);
+  padding: 4px 10px;
   border-radius: 20px;
-  padding: 2px 10px;
-  color: #8b949e;
+  background-color: rgba(99, 102, 241, 0.1);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Buttons */
+.star-btn {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.star-btn:hover {
+  background-color: var(--border-color);
+  transform: translateY(-1px);
 }
 
 /* Tab Navigation */
 .repo-tab-nav {
-  margin-top: 20px;
-  border-bottom: 1px solid #21262d;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Content Area */
-.repo-content {
-  margin-top: 20px;
-}
-
-/* File List Styles */
+/* Files List */
 .file-list {
-  list-style: none;
-  padding: 0;
-  border: 1px solid #30363d;
-  border-radius: 6px;
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   overflow: hidden;
+  background-color: var(--bg-secondary);
 }
 
 .file-item {
-  padding: 10px 16px;
-  border-bottom: 1px solid #21262d;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  gap: 10px;
-  background-color: #161b22;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: var(--text-main);
   font-size: 14px;
+}
+
+.file-item:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--brand-color);
 }
 
 .file-item:last-child {
   border-bottom: none;
 }
 
-.file-item:hover {
-  background-color: #1f2428;
-  cursor: pointer;
-}
-
-/* Issues Section */
-.issue-create-box {
-  margin-bottom: 20px;
-  padding: 16px;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  background-color: #161b22;
-}
-
-.issue-input {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-  background-color: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  color: #c9d1d9;
-}
-
-.issue-card {
-  border: 1px solid #30363d;
-  padding: 16px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  background-color: #161b22;
-}
-
-.issue-title {
-  margin: 0 0 5px 0;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.status-open {
-  font-size: 12px;
-  color: #238636;
-  border: 1px solid #238636;
-  border-radius: 10px;
-  padding: 2px 8px;
-  margin-left: 8px;
-}
-
-.status-closed {
-  font-size: 12px;
-  color: #a371f7;
-  border: 1px solid #a371f7;
-  border-radius: 10px;
-  padding: 2px 8px;
-  margin-left: 8px;
-}
-
-.issue-desc {
-  margin: 0;
-  color: #8b949e;
-  font-size: 14px;
-}
-
-.star-btn {
-  margin-left: auto;
-  padding: 5px 12px;
-  background-color: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  color: #c9d1d9;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.add-file-box {
-  background-color: #161b22;
-  padding: 15px;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-
+/* File Viewer */
 .file-viewer {
-  background-color: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 6px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   overflow: hidden;
+  margin-top: 20px;
 }
 
 .file-header {
-  background-color: #161b22;
-  padding: 10px 15px;
-  border-bottom: 1px solid #30363d;
+  background-color: var(--bg-tertiary);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.code-block {
-  padding: 20px;
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
+  color: var(--text-muted);
   font-size: 14px;
-  line-height: 1.5;
-  color: #c9d1d9;
-  overflow-x: auto;
 }
 
-/* README Styles */
+/* ADD FILE BOX (Added this so it matches the theme) */
+.add-file-box {
+  background-color: var(--bg-secondary);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Issue Section */
+.issue-create-box {
+  background-color: var(--bg-secondary);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs for both Issue and Add File */
+.issue-input {
+  width: 100%;
+  background-color: var(--bg-root);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 12px;
+  color: var(--text-main);
+  font-family: inherit;
+}
+
+.issue-input:focus {
+  border-color: var(--brand-color);
+  outline: none;
+}
+
+/* Issue Cards */
+.issue-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.issue-card:hover {
+  border-color: var(--text-muted);
+  transform: translateX(4px);
+}
+
+.issue-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-open {
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.status-closed {
+  color: var(--brand-color);
+  border: 1px solid var(--brand-color);
+  background: rgba(99, 102, 241, 0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.issue-desc {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* README Section */
 .readme-section {
-    margin-top: 20px;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    background-color: #0d1117;
+  margin-top: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background-color: var(--bg-secondary);
+  overflow: hidden;
 }
 
 .readme-header {
-    padding: 10px 15px;
-    border-bottom: 1px solid #30363d;
-    background-color: #161b22;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #c9d1d9;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-main);
 }
 
 .readme-body {
-    padding: 20px 30px;
-    color: #c9d1d9;
-    line-height: 1.6;
+  padding: 30px;
+  color: var(--text-main);
+  line-height: 1.7;
 }
 
-/* Improve Markdown Typography */
-.readme-body h1, .readme-body h2, .readme-body h3 {
-    border-bottom: 1px solid #21262d;
-    padding-bottom: 0.3em;
-    margin-bottom: 16px;
-    margin-top: 24px;
-}
-
-.readme-body p {
-    margin-bottom: 16px;
+.readme-body h1, .readme-body h2 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5em;
+  margin-top: 1.5em;
 }
 
 .readme-body code {
-    background-color: rgba(110, 118, 129, 0.4);
-    padding: 0.2em 0.4em;
-    border-radius: 6px;
-    font-size: 85%;
+  background-color: var(--bg-root);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+  border: 1px solid var(--border-color);
+}
+
+/* Edit & Delete Buttons */
+.icon-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+}
+
+.icon-btn.danger:hover {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Code Editor Textarea */
+.code-editor {
+  width: 100%;
+  min-height: 400px;
+  background-color: #282a36; /* Dracula background match */
+  color: #f8f8f2;
+  border: none;
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  border-radius: 0 0 6px 6px;
+}
+
+.code-editor:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--brand-color);
 }

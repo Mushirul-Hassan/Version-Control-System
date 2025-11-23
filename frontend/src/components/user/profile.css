@@ -1,105 +1,76 @@
 .profile-page-wrapper {
-  display: flex;
-  min-height: 100vh;
-  color: whitesmoke;
-  width: 100%;
-  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
 }
 
 .user-profile-section {
-  width: 250px;
-  /* min-height: 100vh; */
-  display: flex;
-  flex-direction: column;
-  padding: 40px 10px;
-}
-
-.user-repo-section {
-  margin: 0px auto;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.user-name {
-  /* width: 250px; */
-  margin: 10px 20px 10px 10px;
-  /* margin: 10px auto; */
+  background-color: var(--bg-secondary);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  height: fit-content;
 }
 
 .profile-image {
-  margin: 10px auto;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background-color: grey;
+  background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-root));
+  border: 4px solid var(--bg-root);
+  margin: 0 auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.name h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--text-main);
 }
 
 .follow-btn {
-  background-color: #20272d;
-  width: 250px;
-  margin: 10px auto;
-  height: 40px;
-  border-radius: 10px;
-  color: whitesmoke;
-}
-
-.follower {
-  display: flex;
-  justify-content: center;
-  width: 250px;
-  height: 30px;
-  gap: 10px;
-  margin: 10px auto;
-}
-
-.repo-card-wrapper {
-  margin: 0 auto;
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  padding: 10px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 40px 20px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.repo {
-  border: 0.5px solid grey;
-  border-radius: 10px;
-  width: 400px;
-  height: 210px;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.follow-btn:hover {
+  background-color: var(--brand-hover);
+  box-shadow: 0 0 15px var(--brand-glow);
 }
 
-.repo-name {
-  cursor: pointer;
-  color: #408ced;
-  font-size: 20px;
+.heat-map-section {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 30px;
+  min-height: 300px;
 }
 
-.description {
-  color: grey;
-  font-size: 15px;
-}
-
-@media screen and (max-width: 750px) {
-  .repo {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 570px) {
-  .user-profile-section {
-    margin: auto;
-  }
-
-  .profile-page-wrapper {
-    display: block;
-  }
+#logout {
+  background-color: var(--bg-tertiary);
+  color: var(--danger-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 20px;
+  border-radius: 50px; /* Pill shape */
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 #logout:hover {
-  border: 1px solid white;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger-color);
 }

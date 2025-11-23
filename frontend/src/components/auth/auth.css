@@ -1,146 +1,73 @@
-.login-wrapper {
-    color: #f1f6fd;
-    height: 100vh;
-    width: 100vw;
-    font-family: "Asap", sans-serif;
-    background-color: #0c1116;
-  }
-  
-  .login-logo-container {
-    padding: 40px 0px 20px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .logo-login {
-    width: 48px;
-  }
-  
-  .login-box-wrapper {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .login-box {
-    padding: 20px 0px;
-    width: 364px;
-    min-height: 300px;
-    border-radius: 10px;
-    background-color: #161a23;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .input {
-    width: 250px;
-    height: 35px;
-    background-color: #0c1116;
-    border-radius: 5px;
-    padding: 0 1rem;
-    border: 0.5px solid #f1f6fd;
-    font-size: 1rem;
-    color: whitesmoke;
-    transition: border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
-      color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
-      background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
-  }
-  
-  .label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #f1f6fd;
-    transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
-  }
-  
-  .input:hover,
-  .input:focus {
-    border-color: lightblue;
-  }
-  
-  .submit-btn {
-    background-color: #238636;
-    border: none;
-    width: 250px;
-    border-radius: 5px;
-    height: 35px;
-    color: #f1f6fd;
-    font-weight: 700;
-    padding: 0 1rem;
-  }
-  
-  .submit-btn:hover {
-    background-color: #499458;
-    cursor: pointer;
-  }
-  
-  .passkey-signin {
-    border: 0.5px solid #e6e9ed;
-    width: 360px;
-    border-radius: 10px;
-    height: 90px;
-    margin: 10px auto;
-  }
-  
-  .passkey-signin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-direction: column;
-  }
-  
-  .passkey,
-  .signup {
-    color: #2b7df7;
-    cursor: pointer;
-    /* font-size: px; */
-  }
-  
-  .login-btn {
-    width: 250px;
-  }
-  
-  .pass-box {
-    width: 364px;
-    height: auto;
-    border-radius: 10px;
-    padding: 20px 10px;
-    border: 1px solid #3d3d3d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .signup-button {
-    width: 250px;
-  }
-  
-  @media screen and (max-width: 400px) {
-    .login-box {
-      width: 200px;
-    }
-  
-    .input {
-      width: 150px;
-    }
-  
-    .login-btn {
-      width: 150px;
-    }
-  
-    .pass-box {
-      width: 200px;
-    }
-  }
+.login-wrapper, .signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-root);
+  background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%); /* Subtle radial gradient */
+}
+
+.login-box-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.login-heading h1 { /* Check if you use PageHeader or h1 */
+  text-align: center;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+.login-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.label {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input {
+  margin-bottom: 20px;
+  background-color: var(--bg-root);
+}
+
+.login-btn {
+  width: 100%;
+  background-color: var(--brand-color);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background-color: var(--brand-hover);
+  box-shadow: 0 0 20px var(--brand-glow);
+}
+
+.pass-box {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.pass-box a {
+  color: var(--brand-color);
+  font-weight: 500;
+}

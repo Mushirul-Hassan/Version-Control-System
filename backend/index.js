@@ -22,7 +22,14 @@ const {revertRepo} = require('./controllers/revert');
 
 yargs(hideBin(process.argv))
   .command("start", "Starts a new server", {}, startServer)
-.command("init", "Initialise a new repository", {}, initRepo)
+.command("init <repoId>", "Initialise a new repository", (yargs) => {
+  yargs.positional("repoId", {
+        describe: "Repository ID to link",
+        type: "string",
+    });
+}, (argv) => {
+  initRepo(argv.repoId);
+})
 .command("add <file>", "Add a file to the  repository",
      (yargs) => {
         yargs.positional("file", {

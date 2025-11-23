@@ -1,8 +1,8 @@
 .create-repo-wrapper {
-  background-color: #0d1117;
-  color: #c9d1d9;
+  background-color: var(--bg-root);
+  color: var(--text-main);
   min-height: 100vh;
-  padding-top: 20px;
+  padding-top: 40px;
   display: flex;
   justify-content: center;
 }
@@ -10,18 +10,19 @@
 .create-repo-container {
   width: 100%;
   max-width: 800px;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .repo-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  background-color: #161b22;
-  padding: 24px;
-  border: 1px solid #30363d;
-  border-radius: 6px;
+  gap: 24px;
+  margin-top: 24px;
+  background-color: var(--bg-secondary);
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px; /* Rounded card */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .form-group {
@@ -31,37 +32,47 @@
 
 .repo-label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   font-weight: 600;
-  color: #c9d1d9;
-}
-
-.repo-input, 
-.repo-textarea {
-  width: 100%;
-  background-color: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 5px 12px;
-  color: #c9d1d9;
+  color: var(--text-main);
   font-size: 14px;
-  line-height: 20px;
 }
 
+/* Inputs automatically use the global style from index.css, 
+   but we can add specific overrides here if needed */
 .repo-textarea {
-  min-height: 100px;
+  min-height: 120px;
   resize: vertical;
-}
-
-.repo-input:focus, 
-.repo-textarea:focus {
-  border-color: #58a6ff;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
 }
 
 .visibility-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 15px;
+  background-color: var(--bg-root); /* Darker inset */
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+.visibility-group span {
+  font-size: 14px;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Button overrides to match theme */
+.repo-form button {
+  background-color: var(--brand-color);
+  color: white;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  border: none;
+  margin-top: 10px;
+}
+
+.repo-form button:hover {
+  background-color: var(--brand-hover);
+  box-shadow: 0 0 20px var(--brand-glow);
 }

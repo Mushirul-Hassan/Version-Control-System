@@ -220,6 +220,49 @@ async function searchRepositories(req, res) {
   }
 }
 
+async function updateFile(req, res) {
+  const { id } = req.params;
+  const { name, content } = req.body;
+
+  try {
+    // Find repo with specific ID and specific file name
+    const result = await Repository.updateOne(
+      { _id: id, "content.name": name },
+      { $set: { "content.$.content": content } } // Update only that specific file's content
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "File not found!" });
+    }
+
+    res.json({ message: "File updated successfully!" });
+  } catch (err) {
+    console.error("Error updating file:", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+async function deleteFile(req, res) {
+  const { id } = req.params;
+  const { name } = req.body; // We expect { name: "filename.js" } in the body
+
+  try {
+    const result = await Repository.updateOne(
+      { _id: id },
+      { $pull: { content: { name: name } } } // Remove the object where name matches
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "File not found!" });
+    }
+
+    res.json({ message: "File deleted successfully!" });
+  } catch (err) {
+    console.error("Error deleting file:", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
 module.exports = {
   createRepository,
   getAllRepositories,
@@ -232,4 +275,6 @@ module.exports = {
   createFile,       
   fetchFileContent,
   searchRepositories,
+  updateFile, 
+  deleteFile, 
 };

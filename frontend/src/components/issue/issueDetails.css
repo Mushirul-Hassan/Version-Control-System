@@ -1,85 +1,140 @@
 .issue-details-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    color: #c9d1d9;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  color: var(--text-main);
+}
+
+/* Header Section */
+.issue-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #30363d;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-top h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
 .issue-number {
-    color: #8b949e;
-    font-weight: 300;
+  color: var(--text-muted);
+  font-weight: 300;
 }
 
+.header-top button {
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+}
+
+.header-top button:hover {
+  border-color: var(--text-muted);
+}
+
+/* Status Badge */
 .status-badge {
-    padding: 5px 12px;
-    border-radius: 2em;
-    font-weight: 600;
-    text-transform: capitalize;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .status-open {
-    background-color: #238636;
-    color: white;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
 }
 
 .status-closed {
-    background-color: #8957e5;
-    color: white;
+  background-color: rgba(99, 102, 241, 0.1);
+  color: var(--brand-color);
+  border: 1px solid var(--brand-color);
 }
 
+.meta-text {
+  color: var(--text-muted);
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Comment Thread */
 .comment-thread {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .comment-box {
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    background-color: #0d1117;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--bg-secondary);
+  overflow: hidden;
 }
 
-.comment-header {
-    padding: 10px 15px;
-    background-color: #161b22;
-    border-bottom: 1px solid #30363d;
-    border-radius: 6px 6px 0 0;
-    font-size: 14px;
-    color: #8b949e;
+.comment-head {
+  padding: 12px 20px;
+  background-color: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.comment-header strong {
-    color: #c9d1d9;
+.comment-head strong {
+  color: var(--brand-color); /* Highlight username */
+  font-weight: 600;
 }
 
 .comment-body {
-    padding: 15px;
-    font-size: 15px;
-    line-height: 1.5;
+  padding: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-main);
 }
 
-.comment-input-area textarea {
-    width: 100%;
-    min-height: 100px;
-    background-color: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 10px;
-    color: #c9d1d9;
-    margin-bottom: 10px;
+/* Comment Input Area */
+.comment-input {
+  margin-top: 20px;
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
-.comment-actions {
-    display: flex;
-    justify-content: flex-end;
+.comment-input textarea {
+  width: 100%;
+  min-height: 120px;
+  margin-bottom: 15px;
+  background-color: var(--bg-root); /* Darker input background */
+}
+
+.comment-input button {
+  background-color: var(--success-color); /* Green for 'Post Comment' */
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  float: right;
+}
+
+.comment-input button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
 }

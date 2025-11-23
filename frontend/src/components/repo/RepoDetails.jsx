@@ -3,8 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar";
 import { Button, UnderlineNav } from "@primer/react";
-import { RepoIcon, IssueOpenedIcon, CodeIcon, FileIcon, StarIcon, StarFillIcon, BookIcon } from "@primer/octicons-react";
-import Markdown from 'react-markdown'; // 👈 IMPORT THIS
+import { RepoIcon, IssueOpenedIcon, CodeIcon, FileIcon, StarIcon, StarFillIcon, BookIcon, PencilIcon, TrashIcon } from "@primer/octicons-react";
+import Markdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import "./repoDetails.css"; 
 
 const RepoDetails = () => {
@@ -16,19 +18,19 @@ const RepoDetails = () => {
   const [activeTab, setActiveTab] = useState("code"); 
   const [isStarred, setIsStarred] = useState(false);
   
-  // Issue State
   const [newIssueTitle, setNewIssueTitle] = useState("");
   const [newIssueDesc, setNewIssueDesc] = useState("");
 
   // File State
   const [selectedFile, setSelectedFile] = useState(null); 
   const [fileContent, setFileContent] = useState("");     
+  const [isEditing, setIsEditing] = useState(false); // 👈 NEW: Track editing mode
+  
   const [newFileName, setNewFileName] = useState("");
   const [newFileContent, setNewFileContent] = useState("");
   const [showAddFile, setShowAddFile] = useState(false);
 
-  // README State
-  const [readmeContent, setReadmeContent] = useState(null); // 👈 NEW STATE
+  const [readmeContent, setReadmeContent] = useState(null);
 
   useEffect(() => {
     const fetchRepoData = async () => {
@@ -48,12 +50,8 @@ const RepoDetails = () => {
             setIsStarred(true);
         }
 
-        // 👇 NEW: Check for README.md and fetch it
         const readmeFile = repoData.content.find(file => file.name === "README.md" || file.name === "readme.md");
         if (readmeFile) {
-            // We have the content directly in the file object if your backend returns it,
-            // OR we can fetch it specifically if needed. 
-            // Assuming 'repoData.content' includes the content string:
             setReadmeContent(readmeFile.content);
         }
 
@@ -79,6 +77,7 @@ const RepoDetails = () => {
         const res = await axios.get(`http://localhost:3000/repo/file/${id}/${fileName}`);
         setSelectedFile(fileName);
         setFileContent(res.data.content);
+        setIsEditing(false); // Reset edit mode when opening new file
     } catch (err) {
         console.error("Error fetching file:", err);
     }
@@ -93,7 +92,6 @@ const RepoDetails = () => {
         });
         setFiles([...files, res.data.file]);
         
-        // If user just added a README, show it immediately
         if(res.data.file.name === "README.md") {
             setReadmeContent(res.data.file.content);
         }
@@ -104,6 +102,50 @@ const RepoDetails = () => {
         alert("File Added!");
     } catch(err){
         console.error(err);
+    }
+  };
+
+  // 👇 NEW: Save Edited File
+  const handleSaveEdit = async () => {
+    try {
+        await axios.put(`http://localhost:3000/repo/file/update/${id}`, {
+            name: selectedFile,
+            content: fileContent
+        });
+        
+        // If we edited the README, update the preview immediately
+        if(selectedFile === "README.md") {
+            setReadmeContent(fileContent);
+        }
+        
+        setIsEditing(false);
+        alert("File Updated Successfully!");
+    } catch (err) {
+        console.error("Error updating file:", err);
+        alert("Failed to update file.");
+    }
+  };
+
+  // 👇 NEW: Delete File
+  const handleDeleteFile = async () => {
+    if (!window.confirm(`Are you sure you want to delete ${selectedFile}?`)) return;
+    
+    try {
+        await axios.delete(`http://localhost:3000/repo/file/delete/${id}`, {
+            data: { name: selectedFile } // Pass data in body for DELETE request
+        });
+
+        // Remove from local list
+        setFiles(files.filter(f => f.name !== selectedFile));
+        
+        if(selectedFile === "README.md") setReadmeContent(null);
+
+        setSelectedFile(null);
+        setFileContent("");
+        alert("File Deleted!");
+    } catch (err) {
+        console.error("Error deleting file:", err);
+        alert("Failed to delete file.");
     }
   };
 
@@ -147,10 +189,56 @@ const RepoDetails = () => {
                         {selectedFile ? (
                              <div className="file-viewer">
                                 <div className="file-header">
-                                    <span style={{fontWeight:"bold"}}>{selectedFile}</span>
-                                    <Button onClick={()=>setSelectedFile(null)}>Close</Button>
+                                    <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                                        <span style={{fontWeight:"bold", fontSize: "16px"}}>{selectedFile}</span>
+                                        {isEditing && <span style={{fontSize: "12px", color: "#e3b341"}}>(Editing...)</span>}
+                                    </div>
+                                    
+                                    <div style={{display: "flex", gap: "10px"}}>
+                                        {isEditing ? (
+                                            <>
+                                                <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
+                                                <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <button 
+                                                    onClick={() => setIsEditing(true)} 
+                                                    className="icon-btn" 
+                                                    title="Edit File"
+                                                >
+                                                    <PencilIcon />
+                                                </button>
+                                                <button 
+                                                    onClick={handleDeleteFile} 
+                                                    className="icon-btn danger" 
+                                                    title="Delete File"
+                                                >
+                                                    <TrashIcon />
+                                                </button>
+                                                <Button onClick={()=>setSelectedFile(null)}>Close</Button>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
-                                <pre className="code-block">{fileContent}</pre>
+
+                                {isEditing ? (
+                                    <textarea 
+                                        value={fileContent} 
+                                        onChange={(e) => setFileContent(e.target.value)}
+                                        className="code-editor"
+                                        spellCheck="false"
+                                    />
+                                ) : (
+                                    <SyntaxHighlighter 
+                                        language={selectedFile.split('.').pop()} 
+                                        style={dracula} 
+                                        customStyle={{margin: 0, borderRadius: "0 0 6px 6px", fontSize: "14px", minHeight: "400px"}}
+                                        showLineNumbers={true}
+                                    >
+                                        {fileContent}
+                                    </SyntaxHighlighter>
+                                )}
                              </div>
                         ) : (
                             <>
@@ -161,7 +249,7 @@ const RepoDetails = () => {
 
                                 {showAddFile && (
                                     <div className="add-file-box">
-                                        <input className="issue-input" placeholder="File Name (e.g., README.md)" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)} />
+                                        <input className="issue-input" placeholder="File Name (e.g., index.js)" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)} />
                                         <textarea className="issue-input" placeholder="Code Content..." value={newFileContent} onChange={(e)=>setNewFileContent(e.target.value)} style={{minHeight:"100px"}} />
                                         <Button variant="primary" onClick={handleAddFile}>Commit New File</Button>
                                     </div>
@@ -177,7 +265,6 @@ const RepoDetails = () => {
                                     {files.length === 0 && <p>No files yet.</p>}
                                 </ul>
 
-                                {/* 👇 NEW: README Section */}
                                 {readmeContent && (
                                     <div className="readme-section">
                                         <div className="readme-header">
