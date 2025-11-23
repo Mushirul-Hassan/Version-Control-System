@@ -36,6 +36,10 @@ const ProjectRoutes = ()=>{
             path:"/",
             element:<Dashboard/>
         },
+        // {
+        //     path:"/dashboard",
+        //     element:<Dashboard/>
+        // },
         {
             path:"/auth",
             element:<Login/>

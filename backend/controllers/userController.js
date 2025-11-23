@@ -1,56 +1,42 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { MongoClient } = require("mongodb");
+const User = require("../models/userModel");
 const dotenv = require("dotenv");
-var ObjectId = require("mongodb").ObjectId;
 
 dotenv.config();
-const uri = process.env.MONGO_URI;
-
-let client;
-
-async function connectClient() {
-  if (!client) {
-    client = new MongoClient(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    await client.connect();
-  }
-}
 
 async function signup(req, res) {
   const { username, password, email } = req.body;
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne({ username });
+    // 1. Check if user exists using Mongoose
+    const user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ message: "User already exists!" });
     }
 
+    // 2. Hash Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = {
+    // 3. Create and Save User
+    const newUser = new User({
       username,
       password: hashedPassword,
       email,
       repositories: [],
       followedUsers: [],
       starRepos: [],
-    };
+    });
 
-    const result = await usersCollection.insertOne(newUser);
+    const result = await newUser.save();
 
+    // 4. Generate Token
     const token = jwt.sign(
-      { id: result.insertId },
-      process.env.JWT_SECRET_KEY,
+      { id: result._id },
+      process.env.JWT_SECRET_KEY, // Ensure this matches your .env file
       { expiresIn: "1h" }
     );
-    res.json({ token, userId: result.insertId });
+    res.json({ token, userId: result._id });
   } catch (err) {
     console.error("Error during signup : ", err.message);
     res.status(500).send("Server error");
@@ -60,11 +46,7 @@ async function signup(req, res) {
 async function login(req, res) {
   const { email, password } = req.body;
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials!" });
     }
@@ -86,11 +68,7 @@ async function login(req, res) {
 
 async function getAllUsers(req, res) {
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
-    const users = await usersCollection.find({}).toArray();
+    const users = await User.find({});
     res.json(users);
   } catch (err) {
     console.error("Error during fetching : ", err.message);
@@ -100,20 +78,11 @@ async function getAllUsers(req, res) {
 
 async function getUserProfile(req, res) {
   const currentID = req.params.id;
-
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne({
-      _id: new ObjectId(currentID),
-    });
-
+    const user = await User.findById(currentID);
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
-
     res.send(user);
   } catch (err) {
     console.error("Error during fetching : ", err.message);
@@ -126,10 +95,6 @@ async function updateUserProfile(req, res) {
   const { email, password } = req.body;
 
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
     let updateFields = { email };
     if (password) {
       const salt = await bcrypt.genSalt(10);
@@ -137,18 +102,16 @@ async function updateUserProfile(req, res) {
       updateFields.password = hashedPassword;
     }
 
-    const result = await usersCollection.findOneAndUpdate(
-      {
-        _id: new ObjectId(currentID),
-      },
+    const result = await User.findByIdAndUpdate(
+      currentID,
       { $set: updateFields },
-      { returnDocument: "after" }
+      { new: true }
     );
-    if (!result.value) {
+
+    if (!result) {
       return res.status(404).json({ message: "User not found!" });
     }
-
-    res.send(result.value);
+    res.send(result);
   } catch (err) {
     console.error("Error during updating : ", err.message);
     res.status(500).send("Server error!");
@@ -157,20 +120,11 @@ async function updateUserProfile(req, res) {
 
 async function deleteUserProfile(req, res) {
   const currentID = req.params.id;
-
   try {
-    await connectClient();
-    const db = client.db("Comitly");
-    const usersCollection = db.collection("users");
-
-    const result = await usersCollection.deleteOne({
-      _id: new ObjectId(currentID),
-    });
-
-    if (result.deleteCount == 0) {
+    const result = await User.findByIdAndDelete(currentID);
+    if (!result) {
       return res.status(404).json({ message: "User not found!" });
     }
-
     res.json({ message: "User Profile Deleted!" });
   } catch (err) {
     console.error("Error during updating : ", err.message);
