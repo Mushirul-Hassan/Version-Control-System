@@ -1,0 +1,132 @@
+.repo-details-wrapper {
+  min-height: 100vh;
+  background-color: #0d1117;
+  color: #c9d1d9;
+  padding-bottom: 50px;
+}
+
+.repo-details-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header Styles (Added) */
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.repo-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #58a6ff; /* GitHub Blue */
+}
+
+.repo-badge {
+  font-size: 12px;
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  padding: 2px 10px;
+  color: #8b949e;
+  font-weight: 500;
+}
+
+/* Tab Navigation */
+.repo-tab-nav {
+  margin-top: 20px;
+  border-bottom: 1px solid #21262d;
+}
+
+/* Content Area */
+.repo-content {
+  margin-top: 20px;
+}
+
+/* File List Styles */
+.file-list {
+  list-style: none;
+  padding: 0;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.file-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #161b22;
+  font-size: 14px;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-item:hover {
+  background-color: #1f2428;
+  cursor: pointer;
+}
+
+/* Issues Section */
+.issue-create-box {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background-color: #161b22;
+}
+
+.issue-input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+}
+
+.issue-card {
+  border: 1px solid #30363d;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background-color: #161b22;
+}
+
+.issue-title {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.status-open {
+  font-size: 12px;
+  color: #238636;
+  border: 1px solid #238636;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-left: 8px;
+}
+
+.status-closed {
+  font-size: 12px;
+  color: #a371f7;
+  border: 1px solid #a371f7;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-left: 8px;
+}
+
+.issue-desc {
+  margin: 0;
+  color: #8b949e;
+  font-size: 14px;
+}

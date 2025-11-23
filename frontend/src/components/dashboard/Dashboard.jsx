@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom"; // ✅ ADDED
 
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate(); // ✅ ADDED
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -17,9 +19,9 @@ const Dashboard = () => {
           `http://localhost:3000/repo/user/${userId}`
         );
         const data = await response.json();
-        setRepositories(data.repositories || [] );
+        setRepositories(data.repositories || []);
       } catch (err) {
-        console.error("Error while fecthing repositories: ", err);
+        console.error("Error while fetching repositories: ", err);
         setRepositories([]);
       }
     };
@@ -29,9 +31,8 @@ const Dashboard = () => {
         const response = await fetch(`http://localhost:3000/repo/all`);
         const data = await response.json();
         setSuggestedRepositories(data);
-        console.log(suggestedRepositories);
       } catch (err) {
-        console.error("Error while fecthing repositories: ", err);
+        console.error("Error while fetching repositories: ", err);
       }
     };
 
@@ -40,7 +41,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (searchQuery == "") {
+    if (searchQuery === "") {
       setSearchResults(repositories);
     } else {
       const filteredRepo = repositories.filter((repo) =>
@@ -58,9 +59,9 @@ const Dashboard = () => {
           <h3>Suggested Repositories</h3>
           {suggestedRepositories.map((repo) => {
             return (
-              <div key={repo._id}>
+              <div key={repo._id} className="repo-card">
                 <h4>{repo.name}</h4>
-                <h4>{repo.description}</h4>
+                <p>{repo.description}</p>
               </div>
             );
           })}
@@ -77,9 +78,18 @@ const Dashboard = () => {
           </div>
           {searchResults.map((repo) => {
             return (
-              <div key={repo._id}>
+              <div 
+                key={repo._id}
+                className="repo-card"
+                // ✅ ADDED: This makes the repo clickable
+                onClick={() => navigate(`/repo/${repo._id}`)}
+                style={{cursor: "pointer", border: "1px solid #333", padding: "10px", margin: "10px 0"}}
+              >
                 <h4>{repo.name}</h4>
-                <h4>{repo.description}</h4>
+                <p>{repo.description}</p>
+                 <span style={{fontSize: "12px", color: "#888"}}>
+                    {repo.visibility ? "Public" : "Private"}
+                </span>
               </div>
             );
           })}

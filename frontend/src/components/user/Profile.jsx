@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./profile.css";
 import Navbar from "../Navbar";
@@ -51,7 +51,8 @@ const Profile = () => {
         </UnderlineNav.Item>
 
         <UnderlineNav.Item
-          onClick={() => navigate("/repo")}
+          // ✅ FIX: Redirect to home/dashboard since you don't have a /repo page yet
+          onClick={() => navigate("/")} 
           icon={RepoIcon}
           sx={{
             backgroundColor: "transparent",

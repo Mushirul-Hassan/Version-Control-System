@@ -1,11 +1,9 @@
-const mongoose = require("mongoose");
-const Repository = require("../models/repoModel");
-const User = require("../models/userModel");
 const Issue = require("../models/issueModel");
+const Repository = require("../models/repoModel");
 
 async function createIssue(req, res) {
   const { title, description } = req.body;
-  const { id } = req.params;
+  const { id } = req.params; // Repository ID
 
   try {
     const issue = new Issue({
@@ -15,6 +13,9 @@ async function createIssue(req, res) {
     });
 
     await issue.save();
+
+    // Add issue to repository's issue list
+    await Repository.findByIdAndUpdate(id, { $push: { issues: issue._id } });
 
     res.status(201).json(issue);
   } catch (err) {
@@ -39,7 +40,7 @@ async function updateIssueById(req, res) {
 
     await issue.save();
 
-    res.json(issue, { message: "Issue updated" });
+    res.json(issue);
   } catch (err) {
     console.error("Error during issue updation : ", err.message);
     res.status(500).send("Server error");
@@ -50,11 +51,18 @@ async function deleteIssueById(req, res) {
   const { id } = req.params;
 
   try {
-    const issue = Issue.findByIdAndDelete(id);
+    const issue = await Issue.findByIdAndDelete(id);
 
     if (!issue) {
       return res.status(404).json({ error: "Issue not found!" });
     }
+    
+    // Also remove from repository
+    await Repository.updateOne(
+        { issues: id },
+        { $pull: { issues: id } }
+    );
+
     res.json({ message: "Issue deleted" });
   } catch (err) {
     console.error("Error during issue deletion : ", err.message);
@@ -63,10 +71,10 @@ async function deleteIssueById(req, res) {
 }
 
 async function getAllIssues(req, res) {
-  const { id } = req.params;
+  const { id } = req.params; // Repo ID
 
   try {
-    const issues = Issue.find({ repository: id });
+    const issues = await Issue.find({ repository: id });
 
     if (!issues) {
       return res.status(404).json({ error: "Issues not found!" });
@@ -89,7 +97,7 @@ async function getIssueById(req, res) {
 
     res.json(issue);
   } catch (err) {
-    console.error("Error during issue updation : ", err.message);
+    console.error("Error during issue fetching : ", err.message);
     res.status(500).send("Server error");
   }
 }
