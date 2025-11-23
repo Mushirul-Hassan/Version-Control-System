@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -17,7 +18,7 @@ const {pushRepo} = require('./controllers/push');
 const {pullRepo} = require('./controllers/pull');
 const {revertRepo} = require('./controllers/revert');
 
-dotenv.config();
+
 
 yargs(hideBin(process.argv))
   .command("start", "Starts a new server", {}, startServer)
