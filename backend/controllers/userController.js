@@ -8,17 +8,14 @@ dotenv.config();
 async function signup(req, res) {
   const { username, password, email } = req.body;
   try {
-    // 1. Check if user exists using Mongoose
     const user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ message: "User already exists!" });
     }
 
-    // 2. Hash Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 3. Create and Save User
     const newUser = new User({
       username,
       password: hashedPassword,
@@ -30,10 +27,9 @@ async function signup(req, res) {
 
     const result = await newUser.save();
 
-    // 4. Generate Token
     const token = jwt.sign(
       { id: result._id },
-      process.env.JWT_SECRET_KEY, // Ensure this matches your .env file
+      process.env.JWT_SECRET_KEY,
       { expiresIn: "1h" }
     );
     res.json({ token, userId: result._id });
@@ -79,7 +75,10 @@ async function getAllUsers(req, res) {
 async function getUserProfile(req, res) {
   const currentID = req.params.id;
   try {
-    const user = await User.findById(currentID);
+    const user = await User.findById(currentID)
+      .populate("repositories") // Needed for Heatmap
+      .populate("starRepos");   // Needed for Starred Tab
+
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
@@ -92,13 +91,11 @@ async function getUserProfile(req, res) {
 
 async function updateUserProfile(req, res) {
   const currentID = req.params.id;
-  // 👇 Accept new fields
-  const { email, password, description, profileImage } = req.body; 
+  const { email, password, description, profileImage } = req.body;
 
   try {
     let updateFields = { email };
-    
-    // Add optional fields if they exist
+
     if (description !== undefined) updateFields.description = description;
     if (profileImage !== undefined) updateFields.profileImage = profileImage;
 
@@ -124,6 +121,7 @@ async function updateUserProfile(req, res) {
     res.status(500).send("Server error!");
   }
 }
+
 async function deleteUserProfile(req, res) {
   const currentID = req.params.id;
   try {
@@ -138,9 +136,9 @@ async function deleteUserProfile(req, res) {
   }
 }
 
-  async function likeRepo(req, res) {
-  const { id } = req.body; // Repository ID
-  const user = req.params.userId; // User ID (passed in URL)
+async function likeRepo(req, res) {
+  const { id } = req.body;
+  const user = req.params.userId;
 
   try {
     const currentUser = await User.findById(user);
@@ -148,16 +146,13 @@ async function deleteUserProfile(req, res) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    // Check if repo is already starred
     const index = currentUser.starRepos.indexOf(id);
 
     if (index === -1) {
-      // Not starred yet -> Add it
       currentUser.starRepos.push(id);
       await currentUser.save();
       return res.json({ message: "Repository starred!", starred: true });
     } else {
-      // Already starred -> Remove it
       currentUser.starRepos.splice(index, 1);
       await currentUser.save();
       return res.json({ message: "Repository unstarred!", starred: false });

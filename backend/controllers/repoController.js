@@ -40,7 +40,9 @@ async function getAllRepositories(req, res) {
   try {
     const repositories = await Repository.find({})
       .populate("owner")
-      .populate("issues");
+      .populate("issues")
+      .sort({ createdAt: -1 }) 
+      .limit(10);              
 
     res.json(repositories);
   } catch (err) {

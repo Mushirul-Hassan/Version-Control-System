@@ -5,6 +5,18 @@
   max-width: 1400px;
   margin: 30px auto;
   padding: 0 24px;
+  /* This is required for sticky sidebars to work in a grid */
+  align-items: start; 
+}
+
+/*  Sticky Sidebar Logic */
+aside {
+  position: sticky;
+  top: 90px;        /* Sticks 90px from the top of the viewport */
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 aside h3, main h2 {
@@ -31,6 +43,7 @@ aside h3, main h2 {
 .repo-card:hover {
   border-color: var(--brand-color);
   transform: translateY(-2px); /* Slight lift on hover */
+  cursor: pointer;
 }
 
 /* Little glowing line on the left for style */
@@ -59,6 +72,11 @@ aside h3, main h2 {
 .repo-card p {
   color: var(--text-muted);
   font-size: 14px;
+}
+
+/* Main Feed Styles */
+main {
+  min-width: 0; /* Prevents overflow in flex/grid */
 }
 
 #search {

@@ -71,7 +71,10 @@ const Dashboard = () => {
           <h3>Suggested Repositories</h3>
           {suggestedRepositories.map((repo) => {
             return (
-              <div key={repo._id} className="repo-card">
+              <div key={repo._id} className="repo-card"
+                onClick={() => navigate(`/repo/${repo._id}`)}
+        style={{cursor: "pointer"}}
+      >
                 <h4>{repo.name}</h4>
                 <p>{repo.description}</p>
               </div>
