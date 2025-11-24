@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar";
 import { Button } from "@primer/react";
-import "./profile.css"; // Re-use profile CSS
+import "./profile.css"; 
+import { API_URL } from "../../config";
 
 const EditProfile = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/userProfile/${userId}`);
+        const res = await axios.get(`${API_URL}/userProfile/${userId}`);
         setEmail(res.data.email);
         setDescription(res.data.description || "");
         setProfileImage(res.data.profileImage || "");
@@ -28,7 +29,7 @@ const EditProfile = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:3000/updateProfile/${userId}`, {
+      await axios.put(`${API_URL}/updateProfile/${userId}`, {
         email,
         description,
         profileImage

@@ -14,12 +14,13 @@ import {
   PencilIcon, 
   TrashIcon, 
   GitCommitIcon, 
-  RepoForkedIcon // 👈 Added Icon
+  RepoForkedIcon 
 } from "@primer/octicons-react";
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import "./repoDetails.css"; 
+import { API_URL } from "../../config";
 
 const RepoDetails = () => {
   const { id } = useParams();
@@ -48,9 +49,9 @@ const RepoDetails = () => {
     const fetchRepoData = async () => {
       const userId = localStorage.getItem("userId");
       try {
-        const repoRes = await axios.get(`http://localhost:3000/repo/${id}`);
-        const issuesRes = await axios.get(`http://localhost:3000/issue/all/${id}`);
-        const userRes = await axios.get(`http://localhost:3000/userProfile/${userId}`);
+        const repoRes = await axios.get(`${API_URL}/repo/${id}`);
+        const issuesRes = await axios.get(`${API_URL}/issue/all/${id}`);
+        const userRes = await axios.get(`${API_URL}/userProfile/${userId}`);
 
         const repoData = Array.isArray(repoRes.data) ? repoRes.data[0] : repoRes.data;
         
@@ -78,7 +79,7 @@ const RepoDetails = () => {
   const handleStar = async () => {
     const userId = localStorage.getItem("userId");
     try {
-        const res = await axios.put(`http://localhost:3000/star/${userId}`, { id: id });
+        const res = await axios.put(`${API_URL}/star/${userId}`, { id: id });
         setIsStarred(res.data.starred);
     } catch (err) {
         console.error("Error starring repo:", err);
@@ -89,7 +90,7 @@ const RepoDetails = () => {
   const handleFork = async () => {
     const userId = localStorage.getItem("userId");
     try {
-        const res = await axios.post(`http://localhost:3000/repo/fork/${id}`, {
+        const res = await axios.post(`${API_URL}/repo/fork/${id}`, {
             userId: userId
         });
         
@@ -106,7 +107,7 @@ const RepoDetails = () => {
 
   const handleFileClick = async (fileName) => {
     try {
-        const res = await axios.get(`http://localhost:3000/repo/file/${id}/${fileName}`);
+        const res = await axios.get(`${API_URL}/repo/file/${id}/${fileName}`);
         setSelectedFile(fileName);
         setFileContent(res.data.content);
         setIsEditing(false);
@@ -118,7 +119,7 @@ const RepoDetails = () => {
   const handleAddFile = async () => {
     if(!newFileName || !newFileContent) return alert("Please fill details");
     try {
-        const res = await axios.post(`http://localhost:3000/repo/file/create/${id}`, {
+        const res = await axios.post(`${API_URL}/repo/file/create/${id}`, {
             name: newFileName,
             content: newFileContent
         });
@@ -139,7 +140,7 @@ const RepoDetails = () => {
 
   const handleSaveEdit = async () => {
     try {
-        await axios.put(`http://localhost:3000/repo/file/update/${id}`, {
+        await axios.put(`${API_URL}/repo/file/update/${id}`, {
             name: selectedFile,
             content: fileContent
         });
@@ -159,7 +160,7 @@ const RepoDetails = () => {
   const handleDeleteFile = async () => {
     if (!window.confirm(`Are you sure you want to delete ${selectedFile}?`)) return;
     try {
-        await axios.delete(`http://localhost:3000/repo/file/delete/${id}`, {
+        await axios.delete(`${API_URL}/repo/file/delete/${id}`, {
             data: { name: selectedFile }
         });
         
@@ -177,7 +178,7 @@ const RepoDetails = () => {
   const handleCreateIssue = async () => { 
     if (!newIssueTitle) return;
     try {
-        const res = await axios.post(`http://localhost:3000/issue/create/${id}`, { title: newIssueTitle, description: newIssueDesc });
+        const res = await axios.post(`${API_URL}/issue/create/${id}`, { title: newIssueTitle, description: newIssueDesc });
         setIssues([...issues, res.data]);
         setNewIssueTitle("");
         setNewIssueDesc("");

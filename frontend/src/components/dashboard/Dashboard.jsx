@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import Navbar from "../Navbar";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+ import { API_URL } from "../../config";
 
 const Dashboard = () => {
   const [repositories, setRepositories] = useState([]);
@@ -17,7 +18,7 @@ const Dashboard = () => {
     const fetchRepositories = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/repo/user/${userId}`
+          `${API_URL}/repo/user/${userId}`
         );
         const data = await response.json();
         setRepositories(data.repositories || []);
@@ -29,7 +30,7 @@ const Dashboard = () => {
 
     const fetchSuggestedRepositories = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/repo/all`);
+        const response = await fetch(`${API_URL}/repo/all`);
         const data = await response.json();
         setSuggestedRepositories(data);
       } catch (err) {
@@ -52,7 +53,7 @@ const Dashboard = () => {
 
       try {
         // Call the Global Search API
-        const response = await fetch(`http://localhost:3000/repo/search?query=${searchQuery}`);
+        const response = await fetch(`${API_URL}/repo/search?query=${searchQuery}`);
         const data = await response.json();
         setSearchResults(data);
       } catch (err) {

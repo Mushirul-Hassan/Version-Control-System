@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../Navbar";
 import { PageHeader, Button, Checkbox } from "@primer/react";
 import "./createRepo.css"; 
+import { API_URL } from "../../config";
 
 const CreateRepo = () => {
   const [name, setName] = useState("");
@@ -16,8 +17,8 @@ const CreateRepo = () => {
     const userId = localStorage.getItem("userId");
 
     try {
-      // ✅ LOGIC IS CORRECT: Matches backend route "/repo/create"
-      await axios.post("http://localhost:3000/repo/create", {
+      
+      await axios.post(`${API_URL}/repo/create`, {
         owner: userId,
         name: name,
         description: description,

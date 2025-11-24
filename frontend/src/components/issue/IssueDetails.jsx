@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar";
 import { Button, PageHeader } from "@primer/react";
-import "./issueDetails.css"; // We will create this CSS next
+import "./issueDetails.css"; 
+import { API_URL } from "../../config";
 
 const IssueDetails = () => {
   const { id, issueId } = useParams(); // id = repoId, issueId = issueId
@@ -17,11 +18,11 @@ const IssueDetails = () => {
     const fetchData = async () => {
       try {
         // 1. Fetch Issue Details
-        const issueRes = await axios.get(`http://localhost:3000/issue/${issueId}`);
+        const issueRes = await axios.get(`${API_URL}/issue/${issueId}`);
         setIssue(issueRes.data);
 
         // 2. Fetch Comments
-        const commentsRes = await axios.get(`http://localhost:3000/comment/${issueId}`);
+        const commentsRes = await axios.get(`${API_URL}/comment/${issueId}`);
         setComments(commentsRes.data);
       } catch (err) {
         console.error("Error fetching issue/comments:", err);
@@ -35,7 +36,7 @@ const IssueDetails = () => {
     if (!newComment) return;
 
     try {
-        const res = await axios.post(`http://localhost:3000/comment/post/${issueId}`, {
+        const res = await axios.post(`${API_URL}/comment/post/${issueId}`, {
             userId,
             text: newComment
         });
