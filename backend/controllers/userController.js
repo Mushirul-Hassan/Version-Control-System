@@ -92,10 +92,16 @@ async function getUserProfile(req, res) {
 
 async function updateUserProfile(req, res) {
   const currentID = req.params.id;
-  const { email, password } = req.body;
+  // 👇 Accept new fields
+  const { email, password, description, profileImage } = req.body; 
 
   try {
     let updateFields = { email };
+    
+    // Add optional fields if they exist
+    if (description !== undefined) updateFields.description = description;
+    if (profileImage !== undefined) updateFields.profileImage = profileImage;
+
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -111,13 +117,13 @@ async function updateUserProfile(req, res) {
     if (!result) {
       return res.status(404).json({ message: "User not found!" });
     }
+
     res.send(result);
   } catch (err) {
     console.error("Error during updating : ", err.message);
     res.status(500).send("Server error!");
   }
 }
-
 async function deleteUserProfile(req, res) {
   const currentID = req.params.id;
   try {

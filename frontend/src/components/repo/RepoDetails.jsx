@@ -3,7 +3,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar";
 import { Button, UnderlineNav } from "@primer/react";
-import { RepoIcon, IssueOpenedIcon, CodeIcon, FileIcon, StarIcon, StarFillIcon, BookIcon, PencilIcon, TrashIcon } from "@primer/octicons-react";
+import { 
+  RepoIcon, 
+  IssueOpenedIcon, 
+  CodeIcon, 
+  FileIcon, 
+  StarIcon, 
+  StarFillIcon, 
+  BookIcon, 
+  PencilIcon, 
+  TrashIcon, 
+  GitCommitIcon, 
+  RepoForkedIcon // 👈 Added Icon
+} from "@primer/octicons-react";
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -15,16 +27,16 @@ const RepoDetails = () => {
   const [repo, setRepo] = useState(null);
   const [issues, setIssues] = useState([]);
   const [files, setFiles] = useState([]); 
+  const [commits, setCommits] = useState([]); 
   const [activeTab, setActiveTab] = useState("code"); 
   const [isStarred, setIsStarred] = useState(false);
   
   const [newIssueTitle, setNewIssueTitle] = useState("");
   const [newIssueDesc, setNewIssueDesc] = useState("");
 
-  // File State
   const [selectedFile, setSelectedFile] = useState(null); 
   const [fileContent, setFileContent] = useState("");     
-  const [isEditing, setIsEditing] = useState(false); // 👈 NEW: Track editing mode
+  const [isEditing, setIsEditing] = useState(false);
   
   const [newFileName, setNewFileName] = useState("");
   const [newFileContent, setNewFileContent] = useState("");
@@ -43,7 +55,8 @@ const RepoDetails = () => {
         const repoData = Array.isArray(repoRes.data) ? repoRes.data[0] : repoRes.data;
         
         setRepo(repoData);
-        setFiles(repoData.content || []); 
+        setFiles(repoData.content || []);
+        setCommits(repoData.commits || []);
         setIssues(issuesRes.data);
 
         if (userRes.data.starRepos.includes(id)) {
@@ -72,12 +85,31 @@ const RepoDetails = () => {
     }
   };
 
+  // 👇 NEW: Fork Logic
+  const handleFork = async () => {
+    const userId = localStorage.getItem("userId");
+    try {
+        const res = await axios.post(`http://localhost:3000/repo/fork/${id}`, {
+            userId: userId
+        });
+        
+        alert("Repository Forked! Redirecting...");
+        
+        // Navigate to the NEW repository
+        navigate(`/repo/${res.data.repo._id}`);
+        window.location.reload(); 
+    } catch (err) {
+        console.error("Error forking repo:", err);
+        alert("Failed to fork repository.");
+    }
+  };
+
   const handleFileClick = async (fileName) => {
     try {
         const res = await axios.get(`http://localhost:3000/repo/file/${id}/${fileName}`);
         setSelectedFile(fileName);
         setFileContent(res.data.content);
-        setIsEditing(false); // Reset edit mode when opening new file
+        setIsEditing(false);
     } catch (err) {
         console.error("Error fetching file:", err);
     }
@@ -105,7 +137,6 @@ const RepoDetails = () => {
     }
   };
 
-  // 👇 NEW: Save Edited File
   const handleSaveEdit = async () => {
     try {
         await axios.put(`http://localhost:3000/repo/file/update/${id}`, {
@@ -113,7 +144,6 @@ const RepoDetails = () => {
             content: fileContent
         });
         
-        // If we edited the README, update the preview immediately
         if(selectedFile === "README.md") {
             setReadmeContent(fileContent);
         }
@@ -126,20 +156,15 @@ const RepoDetails = () => {
     }
   };
 
-  // 👇 NEW: Delete File
   const handleDeleteFile = async () => {
     if (!window.confirm(`Are you sure you want to delete ${selectedFile}?`)) return;
-    
     try {
         await axios.delete(`http://localhost:3000/repo/file/delete/${id}`, {
-            data: { name: selectedFile } // Pass data in body for DELETE request
+            data: { name: selectedFile }
         });
-
-        // Remove from local list
-        setFiles(files.filter(f => f.name !== selectedFile));
         
+        setFiles(files.filter(f => f.name !== selectedFile));
         if(selectedFile === "README.md") setReadmeContent(null);
-
         setSelectedFile(null);
         setFileContent("");
         alert("File Deleted!");
@@ -167,19 +192,31 @@ const RepoDetails = () => {
       <Navbar />
       <div className="repo-details-wrapper">
         <div className="repo-details-container">
+            
+            {/* 👇 UPDATED HEADER with Fork & Star */}
             <div className="repo-header">
-                <RepoIcon size={24} className="fgColor-muted" />
-                <h1 className="repo-title">{repo.name}</h1>
-                <button onClick={handleStar} className="star-btn">
-                    {isStarred ? <StarFillIcon fill="#e3b341" /> : <StarIcon />} 
-                    {isStarred ? "Starred" : "Star"}
-                </button>
+                <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                    <RepoIcon size={24} className="fgColor-muted" />
+                    <h1 className="repo-title">{repo.name}</h1>
+                </div>
+
+                <div style={{marginLeft: "auto", display: "flex", gap: "10px"}}>
+                    <button onClick={handleFork} className="star-btn">
+                        <RepoForkedIcon /> Fork
+                    </button>
+
+                    <button onClick={handleStar} className="star-btn">
+                        {isStarred ? <StarFillIcon fill="#e3b341" /> : <StarIcon />} 
+                        {isStarred ? "Starred" : "Star"}
+                    </button>
+                </div>
             </div>
 
             <div className="repo-tab-nav">
                 <UnderlineNav aria-label="Repository">
                     <UnderlineNav.Item aria-current={activeTab === "code" ? "page" : undefined} onClick={() => setActiveTab("code")} icon={CodeIcon}>Code</UnderlineNav.Item>
                     <UnderlineNav.Item aria-current={activeTab === "issues" ? "page" : undefined} onClick={() => setActiveTab("issues")} icon={IssueOpenedIcon} counter={issues.length}>Issues</UnderlineNav.Item>
+                    <UnderlineNav.Item aria-current={activeTab === "commits" ? "page" : undefined} onClick={() => setActiveTab("commits")} icon={GitCommitIcon} counter={commits.length}>Commits</UnderlineNav.Item>
                 </UnderlineNav>
             </div>
 
@@ -193,7 +230,6 @@ const RepoDetails = () => {
                                         <span style={{fontWeight:"bold", fontSize: "16px"}}>{selectedFile}</span>
                                         {isEditing && <span style={{fontSize: "12px", color: "#e3b341"}}>(Editing...)</span>}
                                     </div>
-                                    
                                     <div style={{display: "flex", gap: "10px"}}>
                                         {isEditing ? (
                                             <>
@@ -202,40 +238,17 @@ const RepoDetails = () => {
                                             </>
                                         ) : (
                                             <>
-                                                <button 
-                                                    onClick={() => setIsEditing(true)} 
-                                                    className="icon-btn" 
-                                                    title="Edit File"
-                                                >
-                                                    <PencilIcon />
-                                                </button>
-                                                <button 
-                                                    onClick={handleDeleteFile} 
-                                                    className="icon-btn danger" 
-                                                    title="Delete File"
-                                                >
-                                                    <TrashIcon />
-                                                </button>
+                                                <button onClick={() => setIsEditing(true)} className="icon-btn" title="Edit File"><PencilIcon /></button>
+                                                <button onClick={handleDeleteFile} className="icon-btn danger" title="Delete File"><TrashIcon /></button>
                                                 <Button onClick={()=>setSelectedFile(null)}>Close</Button>
                                             </>
                                         )}
                                     </div>
                                 </div>
-
                                 {isEditing ? (
-                                    <textarea 
-                                        value={fileContent} 
-                                        onChange={(e) => setFileContent(e.target.value)}
-                                        className="code-editor"
-                                        spellCheck="false"
-                                    />
+                                    <textarea value={fileContent} onChange={(e) => setFileContent(e.target.value)} className="code-editor" spellCheck="false" />
                                 ) : (
-                                    <SyntaxHighlighter 
-                                        language={selectedFile.split('.').pop()} 
-                                        style={dracula} 
-                                        customStyle={{margin: 0, borderRadius: "0 0 6px 6px", fontSize: "14px", minHeight: "400px"}}
-                                        showLineNumbers={true}
-                                    >
+                                    <SyntaxHighlighter language={selectedFile.split('.').pop()} style={dracula} customStyle={{margin: 0, borderRadius: "0 0 6px 6px", fontSize: "14px", minHeight: "400px"}} showLineNumbers={true}>
                                         {fileContent}
                                     </SyntaxHighlighter>
                                 )}
@@ -246,7 +259,6 @@ const RepoDetails = () => {
                                     <h3>Files</h3>
                                     <Button onClick={()=>setShowAddFile(!showAddFile)} variant="primary">+ Add File</Button>
                                 </div>
-
                                 {showAddFile && (
                                     <div className="add-file-box">
                                         <input className="issue-input" placeholder="File Name (e.g., index.js)" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)} />
@@ -254,7 +266,6 @@ const RepoDetails = () => {
                                         <Button variant="primary" onClick={handleAddFile}>Commit New File</Button>
                                     </div>
                                 )}
-
                                 <ul className="file-list">
                                     {files.map((file, index) => (
                                         <li key={index} className="file-item" onClick={() => handleFileClick(file.name)}>
@@ -264,19 +275,35 @@ const RepoDetails = () => {
                                     ))}
                                     {files.length === 0 && <p>No files yet.</p>}
                                 </ul>
-
                                 {readmeContent && (
                                     <div className="readme-section">
-                                        <div className="readme-header">
-                                            <BookIcon className="fgColor-muted" />
-                                            <span>README.md</span>
-                                        </div>
-                                        <div className="readme-body">
-                                            <Markdown>{readmeContent}</Markdown>
-                                        </div>
+                                        <div className="readme-header"><BookIcon className="fgColor-muted" /><span>README.md</span></div>
+                                        <div className="readme-body"><Markdown>{readmeContent}</Markdown></div>
                                     </div>
                                 )}
                             </>
+                        )}
+                    </div>
+                )}
+
+                {activeTab === "commits" && (
+                    <div className="commit-list">
+                        {commits.length === 0 ? (
+                            <p style={{textAlign: "center", color: "#8b949e", padding: "20px"}}>No commits yet.</p>
+                        ) : (
+                            commits.slice().reverse().map((commit, index) => (
+                                <div key={index} className="commit-item">
+                                    <div className="commit-icon">
+                                        <GitCommitIcon size={16} />
+                                    </div>
+                                    <div className="commit-content">
+                                        <p className="commit-message">{commit.message}</p>
+                                        <span className="commit-date">
+                                            Committed on {new Date(commit.date).toLocaleDateString()} at {new Date(commit.date).toLocaleTimeString()}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))
                         )}
                     </div>
                 )}
@@ -290,12 +317,7 @@ const RepoDetails = () => {
                         </div>
                         <div className="issue-list">
                             {issues.map((issue) => (
-                                <div 
-                                    key={issue._id} 
-                                    className="issue-card"
-                                    onClick={() => navigate(`/repo/${id}/issue/${issue._id}`)} 
-                                    style={{cursor: "pointer"}}
-                                >
+                                <div key={issue._id} className="issue-card" onClick={() => navigate(`/repo/${id}/issue/${issue._id}`)} style={{cursor: "pointer"}}>
                                     <h4>{issue.title} <span className={`status-${issue.status}`}>({issue.status})</span></h4>
                                     <p>{issue.description}</p>
                                 </div>

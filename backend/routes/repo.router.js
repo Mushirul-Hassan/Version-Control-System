@@ -16,5 +16,6 @@ repoRouter.get("/repo/file/:id/:fileName", repoController.fetchFileContent);
 repoRouter.get("/repo/search", repoController.searchRepositories);
 repoRouter.put("/repo/file/update/:id", repoController.updateFile);
 repoRouter.delete("/repo/file/delete/:id", repoController.deleteFile);
+repoRouter.post("/repo/fork/:id", repoController.forkRepository);
 
 module.exports = repoRouter;

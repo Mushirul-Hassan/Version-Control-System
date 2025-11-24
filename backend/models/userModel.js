@@ -16,6 +16,16 @@ const UserSchema = new Schema(
     password: {
       type: String,
     },
+    // 👇 NEW FIELDS
+    profileImage: {
+      type: String, 
+      default: "" // Stores URL or Base64 string
+    },
+    description: {
+      type: String,
+      default: "" // User Bio
+    },
+    // ----------------
     repositories: [
       {
         type: Schema.Types.ObjectId,

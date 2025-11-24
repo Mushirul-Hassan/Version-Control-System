@@ -1,23 +1,48 @@
+// const fs = require("fs").promises;
+// const path = require("path");
+
+
+// async  function initRepo(){
+//     const repoPath = path.resolve(process.cwd(), ".Commitly");
+//     const commitsPath = path.join(repoPath, "commits");
+
+//     try {
+//         await fs.mkdir(repoPath, { recursive: true });
+//         await fs.mkdir(commitsPath, { recursive: true });
+//         await fs.writeFile(
+//             path.join(repoPath, "config.json"),
+//             JSON.stringify({ bucket: process.env.S3_BUCKET,  repoId: repoId })
+//         );
+//          console.log("Repository initialised!");
+//     } catch (err) {
+//         console.error("Error initialising repository")
+//     }
+   
+// }
+
+// module.exports = { initRepo };
+
 const fs = require("fs").promises;
 const path = require("path");
 
-
-async  function initRepo(){
+// 👇 ADD repoId HERE
+async function initRepo(repoId) {
     const repoPath = path.resolve(process.cwd(), ".Commitly");
     const commitsPath = path.join(repoPath, "commits");
 
     try {
         await fs.mkdir(repoPath, { recursive: true });
         await fs.mkdir(commitsPath, { recursive: true });
+        
         await fs.writeFile(
             path.join(repoPath, "config.json"),
-            JSON.stringify({ bucket: process.env.S3_BUCKET,  repoId: repoId })
+            // Now repoId is defined and can be saved
+            JSON.stringify({ bucket: process.env.S3_BUCKET, repoId: repoId })
         );
-         console.log("Repository initialised!");
+        console.log(`Repository initialized for ID: ${repoId}`); // Added logs for confirmation
     } catch (err) {
-        console.error("Error initialising repository")
+        console.error("Error initialising repository", err);
     }
-   
 }
 
 module.exports = { initRepo };

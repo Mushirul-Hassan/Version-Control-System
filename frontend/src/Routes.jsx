@@ -9,6 +9,7 @@ import Signup from "./components/auth/Signup";
 import CreateRepo from "./components/repo/CreateRepo"; 
 import RepoDetails from "./components/repo/RepoDetails";
 import IssueDetails from "./components/issue/IssueDetails";
+import EditProfile from "./components/user/EditProfile";
 
 // Auth Context
 import { useAuth } from "./authContext";
@@ -63,7 +64,10 @@ const ProjectRoutes = ()=>{
          } ,
          { path: "/repo/:id/issue/:issueId", 
             element: <IssueDetails /> 
-        }
+        },
+        { path: "/settings", 
+            element: <EditProfile /> 
+        },
     ]);
 
     return element;

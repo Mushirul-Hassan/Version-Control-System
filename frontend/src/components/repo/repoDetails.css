@@ -11,7 +11,7 @@
   padding: 30px 20px;
 }
 
-/* Header */
+/* --- Header --- */
 .repo-header {
   display: flex;
   align-items: center;
@@ -40,7 +40,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Buttons */
 .star-btn {
   background-color: var(--bg-tertiary);
   border: 1px solid var(--border-color);
@@ -61,13 +60,13 @@
   transform: translateY(-1px);
 }
 
-/* Tab Navigation */
+/* --- Tab Navigation --- */
 .repo-tab-nav {
   margin-bottom: 20px;
   border-bottom: 1px solid var(--border-color);
 }
 
-/* Files List */
+/* --- Files List --- */
 .file-list {
   margin-top: 20px;
   border: 1px solid var(--border-color);
@@ -97,7 +96,7 @@
   border-bottom: none;
 }
 
-/* File Viewer */
+/* --- File Viewer & Editor --- */
 .file-viewer {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -117,7 +116,52 @@
   font-size: 14px;
 }
 
-/* ADD FILE BOX (Added this so it matches the theme) */
+/* Edit/Delete Buttons */
+.icon-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  border-color: var(--text-muted);
+}
+
+.icon-btn.danger:hover {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Code Editor (Textarea) */
+.code-editor {
+  width: 100%;
+  min-height: 400px;
+  background-color: #282a36; /* Matches Dracula theme */
+  color: #f8f8f2;
+  border: none;
+  padding: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+}
+
+.code-editor:focus {
+  box-shadow: inset 0 0 0 2px var(--brand-color);
+}
+
+/* --- Add File Box --- */
 .add-file-box {
   background-color: var(--bg-secondary);
   padding: 24px;
@@ -129,7 +173,56 @@
   gap: 15px;
 }
 
-/* Issue Section */
+/* --- Commit History --- */
+.commit-list {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.commit-item {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: background 0.2s;
+}
+
+.commit-item:last-child {
+  border-bottom: none;
+}
+
+.commit-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.commit-icon {
+  margin-top: 4px;
+  color: var(--text-muted);
+}
+
+.commit-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.commit-message {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.commit-date {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* --- Issue Section --- */
 .issue-create-box {
   background-color: var(--bg-secondary);
   padding: 24px;
@@ -141,7 +234,6 @@
   gap: 15px;
 }
 
-/* Inputs for both Issue and Add File */
 .issue-input {
   width: 100%;
   background-color: var(--bg-root);
@@ -157,7 +249,6 @@
   outline: none;
 }
 
-/* Issue Cards */
 .issue-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -205,7 +296,7 @@
   font-size: 14px;
 }
 
-/* README Section */
+/* --- README Section --- */
 .readme-section {
   margin-top: 40px;
   border: 1px solid var(--border-color);
@@ -245,49 +336,4 @@
   font-family: monospace;
   font-size: 0.9em;
   border: 1px solid var(--border-color);
-}
-
-/* Edit & Delete Buttons */
-.icon-btn {
-  background-color: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-btn:hover {
-  background-color: var(--bg-tertiary);
-  color: var(--text-main);
-}
-
-.icon-btn.danger:hover {
-  border-color: var(--danger-color);
-  color: var(--danger-color);
-  background-color: rgba(239, 68, 68, 0.1);
-}
-
-/* Code Editor Textarea */
-.code-editor {
-  width: 100%;
-  min-height: 400px;
-  background-color: #282a36; /* Dracula background match */
-  color: #f8f8f2;
-  border: none;
-  padding: 20px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: vertical;
-  border-radius: 0 0 6px 6px;
-}
-
-.code-editor:focus {
-  outline: none;
-  box-shadow: inset 0 0 0 2px var(--brand-color);
 }

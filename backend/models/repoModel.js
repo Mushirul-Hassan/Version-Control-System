@@ -11,13 +11,26 @@ const RepositorySchema = new Schema(
     description: {
       type: String,
     },
-  
     content: [
       {
         name: { type: String, required: true },
         content: { type: String, required: true },
       },
     ],
+    issues: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Issue",
+      },
+    ],
+    
+    commits: [
+      {
+        message: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+      }
+    ],
+    
     visibility: {
       type: Boolean,
     },
@@ -26,12 +39,6 @@ const RepositorySchema = new Schema(
       ref: "User",
       required: true,
     },
-    issues: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Issue",
-      },
-    ],
   },
   {
     timestamps: true, 
