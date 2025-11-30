@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 const express = require("express");
+const path = require("path");
 const dotenv = require("dotenv");
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
