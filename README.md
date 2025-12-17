@@ -63,6 +63,7 @@ Comitly uses a **Hybrid Storage Architecture**:
 - MongoDB Atlas Account (Connection String)
 - AWS Account (S3 Bucket, Access Key, Secret Key)
 
-
-2. Backend Setup
-Navigate to the backend folder and install dependencies:
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/your-username/Comitly.git](https://github.com/your-username/Comitly.git)
+cd Comitly
