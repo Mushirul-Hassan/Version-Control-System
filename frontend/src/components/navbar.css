@@ -1,6 +1,6 @@
 nav {
-  background-color: rgba(24, 24, 27, 0.8); /* Semi-transparent */
-  backdrop-filter: blur(12px); /* Glass effect */
+  background-color: rgba(24, 24, 27, 0.8); 
+  backdrop-filter: blur(12px); 
   border-bottom: 1px solid var(--border-color);
   padding: 16px 40px;
   display: flex;
@@ -14,9 +14,9 @@ nav {
 nav h3 {
   font-size: 22px;
   font-weight: 700;
-  background: linear-gradient(90deg, #fff, #a5b4fc); /* Text Gradient */
+  background: linear-gradient(90deg, #fff, #a5b4fc); 
   
-  /* ✅ FIX: Add standard property before the vendor prefix */
+  
   background-clip: text;
   -webkit-background-clip: text;
   

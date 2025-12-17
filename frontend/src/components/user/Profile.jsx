@@ -12,7 +12,7 @@ import { API_URL } from "../../config";
 const Profile = () => {
   const navigate = useNavigate();
   
-  // 1. State for User Details & View Switching
+  
   const [userDetails, setUserDetails] = useState({ 
     username: "loading...", 
     email: "",
@@ -22,10 +22,10 @@ const Profile = () => {
     starRepos: [] 
   });
   
-  const [view, setView] = useState("overview"); // 'overview' or 'starred'
+  const [view, setView] = useState("overview"); 
   const { setCurrentUser } = useAuth();
 
-  // 2. Fetch Data on Mount
+  
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
@@ -45,7 +45,7 @@ const Profile = () => {
     <>
       <Navbar />
       
-      {/* 3. Navigation Tabs (Overview vs Starred) */}
+      
       <UnderlineNav aria-label="Repository">
         <UnderlineNav.Item 
           aria-current={view === "overview" ? "page" : undefined} 
@@ -58,7 +58,7 @@ const Profile = () => {
 
         <UnderlineNav.Item 
           aria-current={view === "starred" ? "page" : undefined}
-          // 👇 FIX: Set view instead of navigating away
+        
           onClick={() => setView("starred")} 
           icon={RepoIcon} 
           sx={{backgroundColor: "transparent", color: "whitesmoke", cursor: "pointer"}}
@@ -69,7 +69,7 @@ const Profile = () => {
 
       <div className="profile-page-wrapper">
         
-        {/* 4. Left Sidebar: User Profile Info */}
+        
         <div className="user-profile-section">
           <div className="profile-image">
             {userDetails.profileImage ? (
@@ -115,13 +115,13 @@ const Profile = () => {
           </button>
         </div>
 
-        {/* 5. Right Section: Content Switcher */}
+      
         <div className="heat-map-section">
           {view === "overview" ? (
-            // View A: Heatmap
+            
             <HeatMapProfile repos={userDetails.repositories} />
           ) : (
-            // View B: Starred Repos List
+            
             <div className="starred-list">
                 <h3 style={{marginBottom: "20px", borderBottom: "1px solid #30363d", paddingBottom: "10px"}}>Starred Repositories</h3>
                 {userDetails.starRepos && userDetails.starRepos.length > 0 ? (

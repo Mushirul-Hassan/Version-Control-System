@@ -170,7 +170,7 @@ async function createFile(req, res) {
       return res.status(404).json({ error: "Repository not found!" });
     }
 
-    // Add the new file object
+    
     repository.content.push({ name, content });
 
     repository.commits.push({
@@ -187,7 +187,6 @@ async function createFile(req, res) {
   }
 }
 
-// 👇 NEW: Fetch content of a specific file
 async function fetchFileContent(req, res) {
   const { id, fileName } = req.params;
 
@@ -197,7 +196,7 @@ async function fetchFileContent(req, res) {
       return res.status(404).json({ error: "Repository not found!" });
     }
 
-    // Find the file in the content array
+    
     const file = repository.content.find((f) => f.name === fileName);
 
     if (!file) {
@@ -212,13 +211,13 @@ async function fetchFileContent(req, res) {
 }
 
 async function searchRepositories(req, res) {
-  const { query } = req.query; // Get search term from URL query
+  const { query } = req.query; 
 
   try {
-    // Search using MongoDB regex (case-insensitive)
+  
     const repositories = await Repository.find({
       name: { $regex: query, $options: "i" },
-      visibility: true // Only show public repos
+      visibility: true 
     });
 
     res.json(repositories);
@@ -233,10 +232,10 @@ async function updateFile(req, res) {
   const { name, content } = req.body;
 
   try {
-    // Find repo with specific ID and specific file name
+    
     const result = await Repository.updateOne(
       { _id: id, "content.name": name },
-      { $set: { "content.$.content": content } } // Update only that specific file's content
+      { $set: { "content.$.content": content } } 
     );
 
     if (result.matchedCount === 0) {
@@ -258,7 +257,7 @@ async function updateFile(req, res) {
       { _id: id, "content.name": name },
       { 
           $set: { "content.$.content": content },
-          // 👇 NEW: Push to commits array
+      
           $push: { commits: { message: `Updated file: ${name}`, date: new Date() } }
       }
     );
@@ -282,7 +281,7 @@ async function deleteFile(req, res) {
       { _id: id },
       { 
           $pull: { content: { name: name } },
-          // 👇 NEW: Push to commits array
+          
           $push: { commits: { message: `Deleted file: ${name}`, date: new Date() } }
       } 
     );
@@ -299,8 +298,8 @@ async function deleteFile(req, res) {
 }
 
 async function forkRepository(req, res) {
-  const { id } = req.params; // ID of the repo to fork
-  const { userId } = req.body; // ID of the user who is forking it
+  const { id } = req.params; 
+  const { userId } = req.body; 
 
   try {
     const originalRepo = await Repository.findById(id);
@@ -308,20 +307,20 @@ async function forkRepository(req, res) {
       return res.status(404).json({ error: "Repository not found!" });
     }
 
-    // Create the new repository object
+    
     const newRepo = new Repository({
-      name: `fork-${originalRepo.name}`, // Rename to avoid conflict
+      name: `fork-${originalRepo.name}`, 
       description: originalRepo.description,
-      content: originalRepo.content, // Copy files
-      commits: originalRepo.commits, // Copy history
-      owner: userId, // Set new owner
+      content: originalRepo.content, 
+      commits: originalRepo.commits, 
+      owner: userId, 
       visibility: originalRepo.visibility,
-      issues: [] // Start with fresh issues
+      issues: [] 
     });
 
     const savedRepo = await newRepo.save();
 
-    // Update the user's repository list
+    
     await User.findByIdAndUpdate(userId, {
         $push: { repositories: savedRepo._id }
     });

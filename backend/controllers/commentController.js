@@ -19,7 +19,7 @@ async function postComment(req, res) {
 
     await newComment.save();
 
-    // Populate user details so we can show the username immediately
+    
     const populatedComment = await newComment.populate("user", "username");
 
     res.status(201).json(populatedComment);

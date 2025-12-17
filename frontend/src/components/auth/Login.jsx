@@ -5,7 +5,7 @@ import { useAuth } from "../../authContext";
 import { PageHeader, Button } from "@primer/react";
 import "./auth.css";
 
-// import logo from "../../assets/github-mark-white.svg";
+// import logo from "../../assets/";
 import { Link } from "react-router-dom";
 import { API_URL } from "../../config";
 

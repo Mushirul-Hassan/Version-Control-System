@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
 
-  // 1. Fetch Initial Data (User Repos + Suggestions)
+  
   useEffect(() => {
     const userId = localStorage.getItem("userId");
 
@@ -42,24 +42,24 @@ const Dashboard = () => {
     fetchSuggestedRepositories();
   }, []);
 
-  // 2. Global Search Logic (with Debouncing)
+  
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
-      // If search is empty, show user's own repositories
+      
       if (searchQuery.trim() === "") {
         setSearchResults(repositories);
         return;
       }
 
       try {
-        // Call the Global Search API
+      
         const response = await fetch(`${API_URL}/repo/search?query=${searchQuery}`);
         const data = await response.json();
         setSearchResults(data);
       } catch (err) {
         console.error("Error searching repos:", err);
       }
-    }, 500); // Wait 500ms after typing stops
+    }, 500); 
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, repositories]);
@@ -97,7 +97,7 @@ const Dashboard = () => {
               <div 
                 key={repo._id}
                 className="repo-card"
-                // ✅ Navigation Logic
+                
                 onClick={() => navigate(`/repo/${repo._id}`)}
                 style={{cursor: "pointer", border: "1px solid #333", padding: "10px", margin: "10px 0"}}
               >

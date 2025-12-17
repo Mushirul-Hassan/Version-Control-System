@@ -19,7 +19,7 @@ const CommentSchema = new Schema(
     },
   },
   {
-    timestamps: true, // Automatically manage createdAt/updatedAt
+    timestamps: true, 
   }
 );
 

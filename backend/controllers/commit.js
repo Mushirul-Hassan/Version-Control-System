@@ -57,10 +57,10 @@ async function commitRepo(message) {
       return;
     }
 
-    // FIX: Use recursive copy logic instead of simple copyFile
+    
     await copyRecursive(stagingPath, commitDir);
 
-    // Save commit metadata
+    
     const commitData = {
       message,
       date: new Date().toISOString(),
@@ -73,17 +73,14 @@ async function commitRepo(message) {
     );
 
     console.log(`Commit ${commitID} created with message: ${message}`);
-    
-    // Optional: Clear staging area after commit
-    // await fs.rm(stagingPath, { recursive: true });
-    // await fs.mkdir(stagingPath); 
+   
     
   } catch (err) {
     console.error("Error committing files : ", err);
   }
 }
 
-// 👇 Helper function to copy folders recursively (Same as in add.js)
+
 async function copyRecursive(src, dest) {
   const entries = await fs.readdir(src, { withFileTypes: true });
 

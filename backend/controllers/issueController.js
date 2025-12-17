@@ -3,7 +3,7 @@ const Repository = require("../models/repoModel");
 
 async function createIssue(req, res) {
   const { title, description } = req.body;
-  const { id } = req.params; // Repository ID
+  const { id } = req.params; 
 
   try {
     const issue = new Issue({
@@ -14,7 +14,7 @@ async function createIssue(req, res) {
 
     await issue.save();
 
-    // Add issue to repository's issue list
+    
     await Repository.findByIdAndUpdate(id, { $push: { issues: issue._id } });
 
     res.status(201).json(issue);
@@ -57,7 +57,7 @@ async function deleteIssueById(req, res) {
       return res.status(404).json({ error: "Issue not found!" });
     }
     
-    // Also remove from repository
+    
     await Repository.updateOne(
         { issues: id },
         { $pull: { issues: id } }

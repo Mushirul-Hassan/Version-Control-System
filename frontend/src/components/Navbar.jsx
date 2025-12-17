@@ -8,8 +8,8 @@ const Navbar = () => {
       <Link to="/">
         <div>
           {/* <img
-            src="https://www.github.com/images/modules/logos_page/GitHub-Mark.png"
-            alt="GitHub Logo"
+            src=""
+            alt=""
           /> */}
           <h3>Comitly</h3>
         </div>

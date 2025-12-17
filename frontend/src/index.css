@@ -1,28 +1,25 @@
 :root {
-  /* "Cosmic Midnight" Palette */
-  --bg-root: #000000; /* Pure Black */
-  --bg-primary: #09090b; /* Very Dark Grey */
-  --bg-secondary: #18181b; /* Zinc 900 - for cards/nav */
-  --bg-tertiary: #27272a; /* Zinc 800 - for hovers/inputs */
-
-  --border-color: #3f3f46; /* Zinc 700 - Subtle borders */
+ 
+  --bg-root: #000000;
+  --bg-primary: #09090b; 
+  --bg-secondary: #18181b; 
+  --bg-tertiary: #27272a; 
+  --border-color: #3f3f46; 
   
-  /* Text Colors */
-  --text-main: #ececec; /* Bright White */
-  --text-muted: #a1a1aa; /* Zinc 400 */
+ 
+  --text-main: #ececec; 
+  --text-muted: #a1a1aa; 
   --text-highlight: #ffffff;
 
-  /* Brand Colors - The "Not GitHub" Part */
-  --brand-color: #6366f1; /* Indigo 500 - Main Action Color */
-  --brand-hover: #4f46e5; /* Indigo 600 */
-  --brand-glow: rgba(99, 102, 241, 0.25); /* Subtle glow effect */
-
-  /* State Colors */
-  --danger-color: #ef4444; /* Red 500 */
-  --success-color: #10b981; /* Emerald 500 */
-
+  
+  --brand-color: #6366f1; 
+  --brand-hover: #4f46e5; 
+  --brand-glow: rgba(99, 102, 241, 0.25); 
+  
+  --danger-color: #ef4444; 
+  --success-color: #10b981; 
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-  --radius: 8px; /* Slightly rounder corners */
+  --radius: 8px; 
 }
 
 * {
@@ -46,10 +43,10 @@ a {
 }
 
 a:hover {
-  color: #818cf8; /* Lighter indigo */
+  color: #818cf8; 
 }
 
-/* Modern Input Styling */
+
 input, textarea {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -68,7 +65,7 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--brand-glow);
 }
 
-/* Modern Button Styling */
+
 button {
   cursor: pointer;
   font-family: inherit;

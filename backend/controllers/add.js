@@ -32,11 +32,11 @@ async function addRepo(filePath) {
     const stats = await fs.stat(targetPath);
 
     if (stats.isDirectory()) {
-      // Recursive copy for folders (e.g., "add .")
+      
       await copyRecursive(targetPath, stagingPath);
       console.log(`All files from ${filePath} added to staging!`);
     } else {
-      // Single file copy
+      
       const fileName = path.basename(targetPath);
       await fs.copyFile(targetPath, path.join(stagingPath, fileName));
       console.log(`File ${fileName} added to the staging area!`);
@@ -53,7 +53,7 @@ async function copyRecursive(src, dest) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
-    // Ignore hidden folders
+     
     if (entry.name === ".Commitly" || entry.name === "node_modules" || entry.name === ".git") continue;
 
     if (entry.isDirectory()) {

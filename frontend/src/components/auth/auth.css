@@ -4,7 +4,7 @@
   align-items: center;
   min-height: 100vh;
   background-color: var(--bg-root);
-  background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%); /* Subtle radial gradient */
+  background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%); 
 }
 
 .login-box-wrapper {
@@ -13,7 +13,7 @@
   padding: 20px;
 }
 
-.login-heading h1 { /* Check if you use PageHeader or h1 */
+.login-heading h1 { 
   text-align: center;
   color: var(--text-main);
   margin-bottom: 24px;

@@ -86,7 +86,7 @@ const RepoDetails = () => {
     }
   };
 
-  // 👇 NEW: Fork Logic
+  
   const handleFork = async () => {
     const userId = localStorage.getItem("userId");
     try {
@@ -96,7 +96,7 @@ const RepoDetails = () => {
         
         alert("Repository Forked! Redirecting...");
         
-        // Navigate to the NEW repository
+        
         navigate(`/repo/${res.data.repo._id}`);
         window.location.reload(); 
     } catch (err) {
@@ -194,7 +194,7 @@ const RepoDetails = () => {
       <div className="repo-details-wrapper">
         <div className="repo-details-container">
             
-            {/* 👇 UPDATED HEADER with Fork & Star */}
+
             <div className="repo-header">
                 <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
                     <RepoIcon size={24} className="fgColor-muted" />

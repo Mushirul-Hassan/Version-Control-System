@@ -25,7 +25,6 @@
 const fs = require("fs").promises;
 const path = require("path");
 
-// 👇 ADD repoId HERE
 async function initRepo(repoId) {
     const repoPath = path.resolve(process.cwd(), ".Commitly");
     const commitsPath = path.join(repoPath, "commits");
@@ -36,10 +35,10 @@ async function initRepo(repoId) {
         
         await fs.writeFile(
             path.join(repoPath, "config.json"),
-            // Now repoId is defined and can be saved
+            
             JSON.stringify({ bucket: process.env.S3_BUCKET, repoId: repoId })
         );
-        console.log(`Repository initialized for ID: ${repoId}`); // Added logs for confirmation
+        console.log(`Repository initialized for ID: ${repoId}`); 
     } catch (err) {
         console.error("Error initialising repository", err);
     }

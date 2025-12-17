@@ -76,8 +76,8 @@ async function getUserProfile(req, res) {
   const currentID = req.params.id;
   try {
     const user = await User.findById(currentID)
-      .populate("repositories") // Needed for Heatmap
-      .populate("starRepos");   // Needed for Starred Tab
+      .populate("repositories") 
+      .populate("starRepos");   
 
     if (!user) {
       return res.status(404).json({ message: "User not found!" });

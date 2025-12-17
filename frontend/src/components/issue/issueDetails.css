@@ -5,7 +5,7 @@
   color: var(--text-main);
 }
 
-/* Header Section */
+
 .issue-header {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 20px;
@@ -43,7 +43,7 @@
   border-color: var(--text-muted);
 }
 
-/* Status Badge */
+
 .status-badge {
   padding: 4px 12px;
   border-radius: 50px;
@@ -71,7 +71,7 @@
   font-size: 14px;
 }
 
-/* Comment Thread */
+
 .comment-thread {
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@
 }
 
 .comment-head strong {
-  color: var(--brand-color); /* Highlight username */
+  color: var(--brand-color); 
   font-weight: 600;
 }
 
@@ -108,7 +108,7 @@
   color: var(--text-main);
 }
 
-/* Comment Input Area */
+
 .comment-input {
   margin-top: 20px;
   background-color: var(--bg-secondary);
@@ -121,11 +121,11 @@
   width: 100%;
   min-height: 120px;
   margin-bottom: 15px;
-  background-color: var(--bg-root); /* Darker input background */
+  background-color: var(--bg-root); 
 }
 
 .comment-input button {
-  background-color: var(--success-color); /* Green for 'Post Comment' */
+  background-color: var(--success-color); 
   color: #000;
   font-weight: 700;
   border: none;

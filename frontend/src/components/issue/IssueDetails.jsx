@@ -7,7 +7,7 @@ import "./issueDetails.css";
 import { API_URL } from "../../config";
 
 const IssueDetails = () => {
-  const { id, issueId } = useParams(); // id = repoId, issueId = issueId
+  const { id, issueId } = useParams(); 
   const navigate = useNavigate();
   
   const [issue, setIssue] = useState(null);
@@ -17,11 +17,11 @@ const IssueDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Fetch Issue Details
+        
         const issueRes = await axios.get(`${API_URL}/issue/${issueId}`);
         setIssue(issueRes.data);
 
-        // 2. Fetch Comments
+        
         const commentsRes = await axios.get(`${API_URL}/comment/${issueId}`);
         setComments(commentsRes.data);
       } catch (err) {
@@ -40,7 +40,7 @@ const IssueDetails = () => {
             userId,
             text: newComment
         });
-        // Add new comment to list immediately
+        
         setComments([...comments, res.data]);
         setNewComment("");
     } catch(err) {
@@ -66,7 +66,7 @@ const IssueDetails = () => {
         </div>
 
         <div className="comment-thread">
-            {/* Original Issue Description as first comment */}
+        
             <div className="comment-box">
                 <div className="comment-header">
                     <strong>Original Post</strong>
@@ -76,7 +76,7 @@ const IssueDetails = () => {
                 </div>
             </div>
 
-            {/* Comments List */}
+          
             {comments.map((comment) => (
                 <div key={comment._id} className="comment-box">
                     <div className="comment-header">
@@ -88,7 +88,7 @@ const IssueDetails = () => {
                 </div>
             ))}
 
-            {/* New Comment Form */}
+        
             <div className="comment-input-area">
                 <textarea 
                     placeholder="Leave a comment" 
