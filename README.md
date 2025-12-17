@@ -63,38 +63,6 @@ Comitly uses a **Hybrid Storage Architecture**:
 - MongoDB Atlas Account (Connection String)
 - AWS Account (S3 Bucket, Access Key, Secret Key)
 
-### 1. Clone the Repository
-```bash
-git clone [https://github.com/your-username/Comitly.git](https://github.com/your-username/Comitly.git)
-cd Comitly
 
 2. Backend Setup
 Navigate to the backend folder and install dependencies:
-cd backend
-npm install
-
-📖 Usage Guide (CLI)
-Once the backend is running and you have run npm link, you can use Comitly in any project folder on your computer.
-
-Create a Repo on the Web: Go to the Comitly Dashboard, click "Create Repository", and copy the Repo ID.
-
-Initialize locally:
-
-Bash
-
-comitly init <REPO_ID>
-Add Files:
-
-Bash
-
-comitly add .
-Commit Changes:
-
-Bash
-
-comitly commit "Initial commit"
-Push to Cloud:
-
-Bash
-
-comitly push
